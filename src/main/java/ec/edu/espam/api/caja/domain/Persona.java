@@ -1,9 +1,6 @@
 package ec.edu.espam.api.caja.domain;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
@@ -11,6 +8,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
+@MappedSuperclass
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

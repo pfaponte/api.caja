@@ -25,6 +25,6 @@ public class Cliente extends Persona {
     @NotNull(message = "Estado es requerido")
     private Boolean estado;
 
-    @OneToMany(mappedBy = "cliente")
-    private List<Cuenta> cuentas;
+    /*@OneToMany(mappedBy = "cliente")
+    private List<Cuenta> cuentas;*/
 }
