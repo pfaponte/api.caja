@@ -10,36 +10,37 @@ import java.time.LocalDate;
 
 @Getter
 @Setter
-@Entity(name = "movimiento")
-public class Movimiento {
+@Entity
+@Table(name = "movement")
+public class Movement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "fecha")
-    @NotNull(message = "Fecha es requerida")
+    @Column(name = "date")
+    @NotNull(message = "Date is required")
     private LocalDate fecha;
 
     @Column(name = "tipo")
-    @NotNull(message = "Tipo es requerido")
+    @NotNull(message = "Type Movement is required")
     @Enumerated(EnumType.STRING)
-    private TipoMovimiento tipo;
+    private Type tipo;
 
-    @Column(name = "monto")
-    @NotNull(message = "Monto es requerido")
-    private BigDecimal monto;
+    @Column(name = "amount")
+    @NotNull(message = "Amount is required")
+    private BigDecimal amount;
 
     @Column(name = "balance")
-    @NotNull(message = "Balance es requerido")
+    @NotNull(message = "Balance is required")
     private BigDecimal balance;
 
-    /*@NotNull(message = "Cuenta es requerido")
+    @NotNull(message = "Account is required")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Cuenta cuenta;*/
+    private Account account;
 
-    public enum TipoMovimiento {
-        DEBITO, CREDITO;
+    public enum Type {
+        DEBIT, CREDIT;
     }
 }
