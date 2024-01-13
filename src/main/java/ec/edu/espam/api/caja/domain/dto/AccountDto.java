@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 
 @Data
 public class AccountDto {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private Long id;
 
     @NotEmpty(message = "Number is required")

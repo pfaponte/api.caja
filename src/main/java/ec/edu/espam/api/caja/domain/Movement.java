@@ -1,7 +1,6 @@
 package ec.edu.espam.api.caja.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,23 +19,18 @@ public class Movement {
     private Long id;
 
     @Column(name = "date")
-    @NotNull(message = "Date is required")
     private LocalDate fecha;
 
     @Column(name = "tipo")
-    @NotNull(message = "Type Movement is required")
     @Enumerated(EnumType.STRING)
     private Type tipo;
 
     @Column(name = "amount")
-    @NotNull(message = "Amount is required")
     private BigDecimal amount;
 
     @Column(name = "balance")
-    @NotNull(message = "Balance is required")
     private BigDecimal balance;
 
-    @NotNull(message = "Account is required")
     @ManyToOne(fetch = FetchType.LAZY)
     private Account account;
 

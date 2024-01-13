@@ -8,10 +8,8 @@ import ec.edu.espam.api.caja.service.AccountService;
 import ec.edu.espam.api.caja.service.ClientService;
 import ec.edu.espam.api.caja.util.Mapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -28,10 +26,39 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public AccountDto create(AccountDto dto) {
-        Client client = clientService.getById(dto.getClientId());
+        //Client client = clientService.getById(dto.getClientId());
         Account account = convertDtoToEntity(dto);
         //account.setClient(client);
         return convertEntityToDto(repository.save(account));
+    }
+
+    @Override
+    public AccountDto getById(Long id) {
+        return convertEntityToDto(getEntityById(id));
+    }
+
+    @Override
+    public AccountDto update(Long id, AccountDto dto) {
+        Account account = getEntityById(id);
+        Client client = clientService.getEntityById(dto.getClientId());
+        account.setClient(client);
+        account.setNumber(dto.getNumber());
+        account.setAmount(dto.getAmount());
+        account.setInitialBalance(dto.getInitialBalance());
+        account.setState(dto.getState());
+        account.setType(dto.getType());
+        return convertEntityToDto(repository.save(account));
+    }
+
+    @Override
+    public void delete(Long id) {
+        Account account = getEntityById(id);
+        repository.delete(account);
+    }
+
+    private Account getEntityById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Account not found"));
     }
 
     private AccountDto convertEntityToDto(Account account) {

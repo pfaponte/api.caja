@@ -14,6 +14,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping(value = "/cuentas")
+
 public class AccountController {
 
     private final AccountService service;
@@ -24,8 +25,23 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<AccountDto> create(@RequestBody @Valid AccountDto account) {
-        return new ResponseEntity<>(service.create(account), HttpStatus.CREATED);
+    public ResponseEntity<AccountDto> create(@RequestBody @Valid AccountDto dto) {
+        return new ResponseEntity<>(service.create(dto), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<AccountDto> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<AccountDto> update(@PathVariable Long id, @RequestBody @Valid AccountDto dto) {
+        return new ResponseEntity<>(service.update(id, dto), HttpStatus.CREATED);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable Long id) {
+        service.delete(id);
     }
 
 }

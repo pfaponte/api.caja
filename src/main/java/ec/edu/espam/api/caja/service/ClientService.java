@@ -3,8 +3,18 @@ package ec.edu.espam.api.caja.service;
 import ec.edu.espam.api.caja.domain.Client;
 import ec.edu.espam.api.caja.domain.dto.ClientDto;
 
-public interface ClientService {
-    ClientDto create(ClientDto client);
+import java.util.List;
 
-    Client getById(Long id);
+public interface ClientService {
+    ClientDto create(ClientDto dto);
+
+    List<ClientDto> getAll();
+
+    ClientDto getById(Long id);
+
+    ClientDto update(Long id, ClientDto dto);
+
+    void delete(Long id);
+
+    Client getEntityById(Long id);
 }
