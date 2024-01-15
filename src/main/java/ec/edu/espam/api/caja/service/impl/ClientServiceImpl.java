@@ -2,6 +2,7 @@ package ec.edu.espam.api.caja.service.impl;
 
 import ec.edu.espam.api.caja.domain.Client;
 import ec.edu.espam.api.caja.domain.dto.ClientDto;
+import ec.edu.espam.api.caja.exceptions.EntityNotFoundException;
 import ec.edu.espam.api.caja.repository.ClientRepository;
 import ec.edu.espam.api.caja.service.ClientService;
 import ec.edu.espam.api.caja.util.Mapper;
@@ -59,7 +60,7 @@ public class ClientServiceImpl implements ClientService {
     @Override
     public Client getEntityById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Client not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Client not found"));
     }
 
     private ClientDto convertEntityToDto(Client client) {

@@ -19,11 +19,11 @@ public class Movement {
     private Long id;
 
     @Column(name = "date")
-    private LocalDate fecha;
+    private LocalDate date;
 
-    @Column(name = "tipo")
+    @Column(name = "type")
     @Enumerated(EnumType.STRING)
-    private Type tipo;
+    private Type type;
 
     @Column(name = "amount")
     private BigDecimal amount;

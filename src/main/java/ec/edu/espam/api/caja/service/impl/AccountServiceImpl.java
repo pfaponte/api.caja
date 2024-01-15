@@ -3,6 +3,7 @@ package ec.edu.espam.api.caja.service.impl;
 import ec.edu.espam.api.caja.domain.Account;
 import ec.edu.espam.api.caja.domain.Client;
 import ec.edu.espam.api.caja.domain.dto.AccountDto;
+import ec.edu.espam.api.caja.exceptions.EntityNotFoundException;
 import ec.edu.espam.api.caja.repository.AccountRepository;
 import ec.edu.espam.api.caja.service.AccountService;
 import ec.edu.espam.api.caja.service.ClientService;
@@ -58,7 +59,7 @@ public class AccountServiceImpl implements AccountService {
 
     private Account getEntityById(Long id) {
         return repository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Account not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Account not found"));
     }
 
     private AccountDto convertEntityToDto(Account account) {
