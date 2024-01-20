@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class MovementDto {
     private Long id;
 
-    @NotNull(message = "Date is required")
+    //@NotNull(message = "Date is required")
     private LocalDate date;
 
     @NotNull(message = "Type is required")
@@ -22,7 +22,7 @@ public class MovementDto {
     @NotNull(message = "Amount is required")
     private BigDecimal amount;
 
-    @NotNull(message = "Balance is required")
+    //@NotNull(message = "Balance is required")
     private BigDecimal balance;
 
     @NotNull(message = "Account ID is required")

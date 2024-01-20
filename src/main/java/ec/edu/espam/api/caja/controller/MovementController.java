@@ -41,4 +41,5 @@ public class MovementController {
     public void delete(@PathVariable Long id) {
         service.delete(id);
     }
+
 }

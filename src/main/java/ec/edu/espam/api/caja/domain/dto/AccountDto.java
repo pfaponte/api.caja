@@ -20,7 +20,7 @@ public class AccountDto {
     @Enumerated(EnumType.STRING)
     private Account.Type type;
 
-    @NotNull(message = "Initial Balance is required")
+    //@NotNull(message = "Initial Balance is required")
     private BigDecimal initialBalance;
 
     @NotNull(message = "Amount is required")

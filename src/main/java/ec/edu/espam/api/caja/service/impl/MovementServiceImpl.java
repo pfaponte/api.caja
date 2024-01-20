@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,16 +23,32 @@ public class MovementServiceImpl implements MovementService {
 
     private final MovementRepository repository;
 
+
     @Override
     public MovementDto create(MovementDto dto) {
-        validateDebit(dto);
-
-        if (Movement.Type.DEBIT.compareTo(dto.getType()) == 0) {
+        if (dto.getType().compareTo(Movement.Type.DEBIT) == 0) {
+            validateDebit(dto);
             dto.setAmount(dto.getAmount().multiply(new BigDecimal(-1)));
+        } else {
+            validateCredit(dto);
         }
 
+        dto.setDate(LocalDate.now());
         Movement movement = convertDtoToEntity(dto);
         return convertEntityToDto(repository.save(movement));
+    }
+
+    @Override
+    public Movement createCredit(Account account, BigDecimal amount) {
+        Movement movement = Movement.builder()
+                .date(LocalDate.now())
+                .type(Movement.Type.CREDIT)
+                .amount(amount)
+                .account(account)
+                .balance(amount)
+                .build();
+
+        return repository.save(movement);
     }
 
     private void validateDebit(MovementDto dto) {
@@ -41,13 +58,30 @@ public class MovementServiceImpl implements MovementService {
             balance = optional.get().getBalance();
         }
 
-        if (BigDecimal.ZERO.compareTo(balance) <= 0 || balance.compareTo(dto.getAmount()) < 0) {
+        if (balance.compareTo(BigDecimal.ZERO) <= 0 || balance.compareTo(dto.getAmount()) < 0) {
             throw new PreconditionFailedException("Balance not available");
         }
 
+        //Validar si la sumatoria de retiro diario es mayor a 1000 muestre mensaje "Cupo diario excedido"
+        BigDecimal dailyAmount = dailyAmount(dto.getAccountId());
 
 
+        dto.setBalance(balance.subtract(dto.getAmount()));
+    }
 
+    private BigDecimal dailyAmount(Long accountId) {
+        List<Movement> movements = repository.findByAccountIdAndDate(accountId, LocalDate.now());
+        return BigDecimal.ZERO;
+    }
+
+    private void validateCredit(MovementDto dto) {
+        BigDecimal balance = BigDecimal.ZERO;
+        Optional<Movement> optional = repository.findByAccountOrderByDateDesc(dto.getAccountId());
+        if (optional.isPresent()) {
+            balance = optional.get().getBalance();
+        }
+
+        dto.setBalance(balance.add(dto.getAmount()));
     }
 
     @Override
