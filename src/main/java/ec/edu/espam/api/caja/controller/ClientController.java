@@ -39,7 +39,7 @@ public class ClientController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClientDto> update(@PathVariable Long id, @Valid @RequestBody ClientDto dto) {
-        return new ResponseEntity<>(clientService.update(id, dto), HttpStatus.CREATED);
+        return ResponseEntity.ok(clientService.update(id, dto));
     }
 
     @DeleteMapping("{id}")

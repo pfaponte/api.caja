@@ -48,6 +48,7 @@ public class ClientServiceImpl implements ClientService {
         client.setDni(dto.getDni());
         client.setPhone(dto.getPhone());
         client.setGender(dto.getGender());
+        client.setName(dto.getName());
         return convertEntityToDto(repository.save(client));
     }
 

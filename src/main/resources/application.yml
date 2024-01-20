@@ -6,9 +6,23 @@ spring:
     url: jdbc:h2:mem:testdb
   jpa:
     show-sql: false
+  main:
+    allow-circular-references: true
+  cloud:
+    config:
+      import-check:
+        enabled: false
 
 logging:
   level:
     org:
       springframework:
         web: DEBUG
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  security:
+    enabled: false
