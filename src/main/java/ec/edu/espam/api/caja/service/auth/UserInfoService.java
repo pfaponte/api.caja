@@ -1,6 +1,7 @@
 package ec.edu.espam.api.caja.service.auth;
 
 import ec.edu.espam.api.caja.domain.auth.UserInfo;
+import ec.edu.espam.api.caja.exceptions.PreconditionFailedException;
 import ec.edu.espam.api.caja.repository.auth.UserInfoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,9 +29,16 @@ public class UserInfoService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
-    public String addUser(UserInfo userInfo) {
+    public UserInfo addUser(UserInfo userInfo) {
+        validate(userInfo);
+
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-        repository.save(userInfo);
-        return "User added successfully";
+        return repository.save(userInfo);
+    }
+
+    private void validate(UserInfo userInfo) {
+        if (repository.findByName(userInfo.getName()).isPresent()) {
+            throw new PreconditionFailedException("User already exists");
+        }
     }
 }
